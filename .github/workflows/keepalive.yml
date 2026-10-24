@@ -1,0 +1,16 @@
+name: Keep Workflows Alive
+on:
+  schedule:
+    - cron: "0 0 * * *"  # 每天运行一次，检查是否需要保活
+  workflow_dispatch:      # 允许手动触发测试
+
+jobs:
+  keepalive:
+    runs-on: ubuntu-latest
+    permissions:
+      actions: write       # 关键：允许通过 API 写入 Actions 状态
+    steps:
+      - uses: actions/checkout@v4
+      - uses: gautamkrishnar/keepalive-workflow@v2
+        with:
+          use_api: true    # 默认为 true，启用 API 模式
